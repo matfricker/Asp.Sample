@@ -1,0 +1,9 @@
+html, body {
+    margin: 0;
+    font-family: 'Lucida Sans', Verdana, sans-serif;
+    font-size: 14px;
+}
+
+.content {
+    padding: 10px 10px 0 10px;
+}
