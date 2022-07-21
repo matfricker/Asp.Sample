@@ -1,4 +1,6 @@
 <%
+    Dim pageTitle
+
     Dim dtmHour
     Dim strGreeting
 
@@ -12,7 +14,6 @@
     End If
 
     Sub getMessage()
-      Response.Write("message from include file.")
+        Response.Write("String from include file.")
     End Sub
-
 %>

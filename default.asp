@@ -1,86 +1,76 @@
 <!--#include file="includes/functions.asp"-->
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Classic ASP - <%= strGreeting %></title>
-        <link type="text/css" rel="stylesheet" href="css/styles.css" />
-    </head>
-    <body>
-        <div class="content">
-            <h3>Classic ASP - <%= strGreeting %></h3>
-            <p>This page was last refreshed on <%= Now() %>.</p>
-            <p><% getMessage() %></p>
-            <p><a href="default.asp">Home</a></p>
-        </div>
+<% pageTitle = strGreeting %>
+<!--#include file="includes/header.asp"-->
+<%
+    strAccountNumber = Request.Form("txtAccountNumber")
+    strTransactionType = Request.Form("ddlTransactionType")
+    btnSubmit = Request.Form("Submit")
 
-        <%
-            strAccountNumber = Request.Form("txtAccountNumber")
-            strTransactionType = Request.Form("ddlTransactionType")
-            btnSubmit = Request.Form("Submit")
+    If btnSubmit <> "" Then
 
+        'SUBMIT
+        Dim count
+        count = Len(strAccountNumber)
+
+        If count > 0 Then
             'add to session
-            Session("strAccountNumber") = strAccountNumber
-            Session("strTransactionType") = strTransactionType
+            Session("AccountNumber") = strAccountNumber
+            Session("TransactionType") = strTransactionType
 
-            If btnSubmit <> "" Then
-
-                'SUBMIT
-                Dim count
-                Dim character
-                Dim complete
-
-                count = Len(strAccountNumber)
-                'Response.Write(count)
-
-                For i = 1 To count
-                    character = Mid(strAccountNumber, i, 1)
-
-                    If i = 1 Then
-                        Response.Write("*")
-                    Else
-                        Response.Write("|")
-                    End If
-
-                    Response.Write(character)
-
-                    If i = count Then
-                        Response.Write("*")
-                    End If
-
-                Next
-
-                If Not AccountValid(strAccountNumber) Then
-                    strErrorMessage = "<span style='color: #ff0000;'>Server-Side Validation: Invalid Account Number, needs to have 6 or more digits.</span>"
+            'validation
+            If Not AccountValid(strAccountNumber) Then
+                strErrorMessage = "<span style='color: #ff0000;'>Validation: Invalid Account Number, needs to have 6 or more digits.</span>"
+            Else
+                If DigitsOnly(count, strAccountNumber) Then
+                    Response.Redirect("complete.asp")
                 Else
-                    Server.Transfer("complete.asp")
+                    strErrorMessage = "<span style='color: #ff0000;'>Validation: Invalid Account Number, digits only.</span>"
                 End If
-
             End If
 
-            Function AccountValid(strAccountNumber)
-                If Len(strAccountNumber) >= 6 Then
-                    'For Each item In strAccountNumber.Char
-                    AccountValid = True
-                Else
-                    AccountValid = False
-                End If
-            End Function
-        %>
+        Else
+            strErrorMessage = "<span style='color: #ff0000;'>Validation: Account Number Required.</span>"
+        End If
 
-        <div class="content">
-            <form method="post" action="default.asp">
-                Account Number: <input type="Text" name="txtAccountNumber" />
+    End If
 
-                <select name="ddlTransactionType">
-                    <option value="Deposit">Deposit</option>
-                    <option value="Withdrawl">Withdrawl</option>
-                    <option value="Transfer">Transfer</option>
-                </select>
+    Function AccountValid(strAccountNumber)
+        If Len(strAccountNumber) >= 6 Then
+            AccountValid = True
+        Else
+            AccountValid = False
+        End If
+    End Function
 
-                <input name="Submit" type="Submit" value="Submit" />
-                <br />
-                <p><%= strErrorMessage %></p>
-            </form>
-        </div>
-    </body>
-</html>
+    Function DigitsOnly(count, strAccountNumber)
+        Dim character
+        For i = 1 To count
+            DigitsOnly = false
+            character = Mid(strAccountNumber, i, 1)
+            If Not IsNumeric(character) Then Exit For
+                DigitsOnly = true
+
+        Next
+    End Function
+%>
+
+<div class="content">
+    <p>This page was last refreshed on <%= Now() %>.</p>
+    <p><% getMessage() %></p>
+
+    <form method="post" action="default.asp">
+        Account Number: <input type="Text" name="txtAccountNumber" />
+
+        <select name="ddlTransactionType">
+            <option value="Deposit">Deposit</option>
+            <option value="Withdrawl">Withdrawl</option>
+            <option value="Transfer">Transfer</option>
+        </select>
+
+        <input name="Submit" type="Submit" value="Process Account" />
+        <br />
+        <p><%= strErrorMessage %></p>
+    </form>
+</div>
+
+<!--#include file="includes/footer.asp"-->
