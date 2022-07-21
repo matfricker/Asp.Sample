@@ -8,7 +8,7 @@
 
     If btnSubmit <> "" Then
 
-        'SUBMIT
+        'submit
         Dim count
         count = Len(strAccountNumber)
 

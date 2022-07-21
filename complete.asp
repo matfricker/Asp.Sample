@@ -4,7 +4,6 @@
 
 <div class="content">
     <p>Process Complete</p>
-
     <%
         If Session("AccountNumber") <> "" Then
             Dim str 
@@ -15,6 +14,5 @@
             Response.Write(str2)
         End If
     %>
-
 </div>
 <!--#include file="includes/footer.asp"-->
