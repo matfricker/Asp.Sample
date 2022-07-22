@@ -6,6 +6,6 @@
     </head>
     <body>
         <div class="navigation">
-            <p><a href="default.asp">Home</a> | <a href="about.asp">About Me</a></p>
+            <p><a href="default.asp">Home</a> | <a href="about.asp">About Me</a> | <a href="data.asp">Data</a></p>
         </div>
         <!--#include file="title.asp"-->

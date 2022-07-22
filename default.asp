@@ -56,6 +56,7 @@
 
 <div class="content">
     <p>This page was last refreshed on <%= Now() %>.</p>
+
     <p><% getMessage() %></p>
 
     <form method="post" action="default.asp">
