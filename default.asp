@@ -74,4 +74,12 @@
     </form>
 </div>
 
+<div class="content">
+    
+    <form method="post" action="generate-xml.asp">
+        <label>Generate XML File:</label>
+        <input name="Submit" type="Submit" value="Generate" />
+    </form>
+</div>
+
 <!--#include file="includes/footer.asp"-->
