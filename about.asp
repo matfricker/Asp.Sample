@@ -13,6 +13,7 @@
         <%
             If secretMessage <> "" Then
                 Response.Write("<strong>Secret Message:</strong>: " + secretMessage)
+                consoleLog(secretMessage)
             Else
                 Response.Write("<a href='about.asp?msg=Hello%20%World'>Click for secret message.</a>")
             End If

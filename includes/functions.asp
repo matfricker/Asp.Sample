@@ -16,4 +16,8 @@
     Sub getMessage()
         Response.Write("String from include file.")
     End Sub
+
+    Sub consoleLog(str)
+        Response.Write("<script>console.log(`'" & str & "'`);</script>")
+    End Sub
 %>
