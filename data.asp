@@ -4,10 +4,11 @@
 
 <div class="content">
     <p>The following is extracted from a SQLite database, using the SQLite3 ODBC Driver.</p>
+    <p>ODBC Driver needs to be installed.</p>
     <%
         Set conn = Server.CreateObject("ADODB.Connection")
 
-        Dim path 
+        Dim path
         path = Server.MapPath("data\data.sqlite3")
         conn.Open "DRIVER=SQLite3 ODBC Driver;Database=" & path & ";LongNames=0;Timeout=1000;NoTXN=0;SyncPragma=NORMAL;StepAPI=0;"
 
@@ -42,7 +43,7 @@
             Response.Write("</tr>")
             Response.Write("</thead>")
             Response.Write("<tbody>")
-            
+
             Do While Not recordSet.EOF
                 Response.Write("<tr>")
                 Response.Write("<td><a href='data.asp?id=" & recordSet("Id") & "'>" & cstr(recordSet("AccountNumber")) & "</a></td>")
@@ -53,7 +54,7 @@
             Loop
 
             recordSet.Close
-            
+
             Response.Write("</tbody>")
             Response.Write("</table>")
         Else
@@ -76,7 +77,7 @@
             Response.Write("</tr>")
             Response.Write("</thead>")
             Response.Write("<tbody>")
-            
+
             Do While Not recordSet.EOF
                 Response.Write("<tr>")
                 Response.Write("<td>" & cstr(recordSet("AccountNumber")) & "</td>")
@@ -87,7 +88,7 @@
             Loop
 
             recordSet.Close
-            
+
             Response.Write("</tbody>")
             Response.Write("</table>")
         End If
