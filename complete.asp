@@ -6,7 +6,7 @@
     <p>Process Complete</p>
     <%
         If Session("AccountNumber") <> "" Then
-            Dim str 
+            Dim str
             str1 = "<p>Account Number: AC-" + Session("AccountNumber") + "-XXXX</p>"
             Response.Write(str1)
 

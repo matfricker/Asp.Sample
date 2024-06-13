@@ -2,11 +2,12 @@
 <% pageTitle = strGreeting %>
 <!--#include file="includes/header.asp"-->
 <%
+    Session.Contents.RemoveAll()
+
     strAccountNumber = Request.Form("txtAccountNumber")
     strTransactionType = Request.Form("ddlTransactionType")
-    btnSubmit = Request.Form("Submit")
 
-    If btnSubmit <> "" Then
+    If Request.Form("Submit") <> "" Then
 
         'submit
         Dim count
@@ -63,9 +64,8 @@
         Account Number: <input type="Text" name="txtAccountNumber" />
 
         <select name="ddlTransactionType">
-            <option value="Deposit">Deposit</option>
-            <option value="Withdrawl">Withdrawl</option>
-            <option value="Transfer">Transfer</option>
+            <option value="1">Credit</option>
+            <option value="2">Debit</option>
         </select>
 
         <input name="Submit" type="Submit" value="Process Account" />
@@ -75,7 +75,7 @@
 </div>
 
 <div class="content">
-    
+
     <form method="post" action="generate-xml.asp">
         <label>Generate XML File:</label>
         <input name="Submit" type="Submit" value="Generate" />

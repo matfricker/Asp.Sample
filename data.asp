@@ -3,6 +3,16 @@
 <!--#include file="includes/header.asp"-->
 
 <div class="content">
+    <%
+        If Session("Amount") <> "" or Session("TransactionType") <> "" Then
+            amount = "<p>Amount: " + Session("Amount") + "</p>"
+            Response.Write(amount)
+
+            transactionType = "<p>Transaction Type: " + Session("TransactionType") + "</p>"
+            Response.Write(transactionType)
+        End If
+    %>
+
     <p>The following is extracted from a SQLite database, using the SQLite3 ODBC Driver.</p>
     <p>ODBC Driver needs to be installed.</p>
     <%
@@ -65,13 +75,17 @@
             Dim accountId
             accountId = Request.QueryString("id")
 
-            sqlStatement = "SELECT AccountNumber, TransactionDate, Amount FROM Accounts JOIN Transactions ON Accounts.Id = Transactions.AccountId WHERE AccountId = " & accountId
+            sqlStatement = "SELECT AccountNumber, TransactionType, TransactionDate, Amount FROM Accounts JOIN Transactions ON Accounts.Id = Transactions.AccountId WHERE AccountId = " & accountId
             recordSet.Open sqlStatement, conn
+
+            Response.Write("<a href='data.asp'>Close Transactions</a> | <a href='data-edit.asp?id=" & accountId & "'>Edit Transactions</a>")
+            Response.Write("")
 
             Response.Write("<table class='table'>")
             Response.Write("<thead>")
             Response.Write("<tr>")
             Response.Write("<th>Account Number</th>")
+            Response.Write("<th>Type</th>")
             Response.Write("<th>Transaction Date</th>")
             Response.Write("<th>Amount</th>")
             Response.Write("</tr>")
@@ -79,10 +93,25 @@
             Response.Write("<tbody>")
 
             Do While Not recordSet.EOF
+                Dim amount
+                amount = FormatNumber(recordSet("Amount"), 2)
+
                 Response.Write("<tr>")
                 Response.Write("<td>" & cstr(recordSet("AccountNumber")) & "</td>")
+
+                If recordSet("TransactionType") = 2 Then
+                    Response.Write("<td>Debit</td>")
+                Else
+                    Response.Write("<td>Credit</td>")
+                End If
+
                 Response.Write("<td>" & recordSet("TransactionDate") & "</td>")
-                Response.Write("<td>" & recordSet("Amount") & "</td>")
+
+                If recordSet("TransactionType") = 2 Then
+                    Response.Write("<td style='color:red;text-align:right;'>- &pound; " & amount & "</td>")
+                Else
+                    Response.Write("<td style='text-align:right;'>&pound; " & amount & "</td>")
+                End If
                 Response.Write("</tr>")
                 recordSet.MoveNext
             Loop
@@ -91,6 +120,7 @@
 
             Response.Write("</tbody>")
             Response.Write("</table>")
+
         End If
 
     %>

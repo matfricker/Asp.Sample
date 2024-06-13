@@ -20,4 +20,11 @@
     Sub consoleLog(str)
         Response.Write("<script>console.log(`'" & str & "'`);</script>")
     End Sub
+
+    Function addLeadingZero(value)
+        addLeadingZero = value
+        If value < 10 then
+            addLeadingZero = "0" & value
+        End If
+    End Function
 %>
