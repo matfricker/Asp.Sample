@@ -34,7 +34,7 @@
 
             Response.Write("<p>Accounts: (" & recordCount & ")</p>")
 
-            Response.Write("<table class='table'>")
+            Response.Write("<table class='table' style='width: 800px;'>")
             Response.Write("<thead>")
             Response.Write("<tr>")
             Response.Write("<th>Account Number</th>")
@@ -62,6 +62,7 @@
         End If
 
         If Request.QueryString("id") <> "" Then
+            Dim total
             Dim accountId
             accountId = Request.QueryString("id")
 
@@ -71,7 +72,7 @@
             Response.Write("<a href='data.asp'>Close Transactions</a> | <a href='data-add.asp?id=" & accountId & "'>Edit Transactions</a>")
             Response.Write("")
 
-            Response.Write("<table class='table'>")
+            Response.Write("<table class='table' style='width: 800px;'>")
             Response.Write("<thead>")
             Response.Write("<tr>")
             Response.Write("<th>Account Number</th>")
@@ -82,8 +83,11 @@
             Response.Write("</thead>")
             Response.Write("<tbody>")
 
+            total = 0
+
             Do While Not recordSet.EOF
                 Dim amount
+
                 amount = FormatNumber(recordSet("Amount"), 2)
 
                 Response.Write("<tr>")
@@ -98,8 +102,10 @@
                 Response.Write("<td>" & recordSet("TransactionDate") & "</td>")
 
                 If recordSet("TransactionType") = 2 Then
-                    Response.Write("<td style='color:red;text-align:right;'>- &pound; " & amount & "</td>")
+                    total = total - amount
+                    Response.Write("<td style='color:red;text-align:right;'>&pound; " & amount & "</td>")
                 Else
+                    total = total + amount
                     Response.Write("<td style='text-align:right;'>&pound; " & amount & "</td>")
                 End If
                 Response.Write("</tr>")
@@ -110,6 +116,13 @@
 
             Response.Write("</tbody>")
             Response.Write("</table>")
+
+            Response.Write("<table class='table' style='width: 300px;'>")
+            Response.Write("<tr>")
+            Response.Write("<td style='text-align:left;'>Balance</td>")
+            Response.Write("<td style='width: 50%; text-align:right;'>&pound; " & FormatNumber(total, 2) & "</td>")
+            Response.Write("</tr>")
+            Response.Write("<table>")
 
         End If
 

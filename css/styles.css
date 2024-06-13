@@ -28,7 +28,6 @@ html, body {
 }
 
 .table {
-    width: 500px;
     border-collapse: collapse;
     margin: 10px 0;
 }
@@ -39,4 +38,9 @@ html, body {
 
 .table thead tr {
     background-color: #dddddd;
+}
+
+.table tr td {
+    padding: 4px;
+    text-align: center;
 }
