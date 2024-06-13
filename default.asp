@@ -2,12 +2,10 @@
 <% pageTitle = strGreeting %>
 <!--#include file="includes/header.asp"-->
 <%
-    Session.Contents.RemoveAll()
-
     strAccountNumber = Request.Form("txtAccountNumber")
     strTransactionType = Request.Form("ddlTransactionType")
 
-    If Request.Form("Submit") <> "" Then
+    If Not IsEmpty(Request.Form) Then
 
         'submit
         Dim count

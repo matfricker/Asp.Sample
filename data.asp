@@ -3,16 +3,6 @@
 <!--#include file="includes/header.asp"-->
 
 <div class="content">
-    <%
-        If Session("Amount") <> "" or Session("TransactionType") <> "" Then
-            amount = "<p>Amount: " + Session("Amount") + "</p>"
-            Response.Write(amount)
-
-            transactionType = "<p>Transaction Type: " + Session("TransactionType") + "</p>"
-            Response.Write(transactionType)
-        End If
-    %>
-
     <p>The following is extracted from a SQLite database, using the SQLite3 ODBC Driver.</p>
     <p>ODBC Driver needs to be installed.</p>
     <%
@@ -78,7 +68,7 @@
             sqlStatement = "SELECT AccountNumber, TransactionType, TransactionDate, Amount FROM Accounts JOIN Transactions ON Accounts.Id = Transactions.AccountId WHERE AccountId = " & accountId
             recordSet.Open sqlStatement, conn
 
-            Response.Write("<a href='data.asp'>Close Transactions</a> | <a href='data-edit.asp?id=" & accountId & "'>Edit Transactions</a>")
+            Response.Write("<a href='data.asp'>Close Transactions</a> | <a href='data-add.asp?id=" & accountId & "'>Edit Transactions</a>")
             Response.Write("")
 
             Response.Write("<table class='table'>")

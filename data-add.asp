@@ -60,11 +60,10 @@
             strAccountByAccountId = "SELECT * FROM Accounts WHERE Id = " & accountId
             Set rsAccounts = Server.CreateObject("ADODB.recordset")
             rsAccounts.Open strAccountByAccountId, conn
-            Response.Write("<p><strong></strong></p>")
         End If
     %>
 
-    <form method="post" action="data-edit.asp">
+    <form method="post" action="data-add.asp">
         <h3>New Transaction:</h3>
 
         <input type="hidden" name="AccountId" value="<%= accountId%>" style="height: 16px; width: 82px;"/>
