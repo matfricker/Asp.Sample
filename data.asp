@@ -32,7 +32,7 @@
             Set recordSet = Server.CreateObject("ADODB.recordset")
             recordSet.Open sqlStatement, conn
 
-            Response.Write("<p>Accounts: (" & recordCount & ")</p>")
+            Response.Write("<p>Accounts: (" & recordCount & ") | <a href='data-add.asp?id=" & recordSet("Id") & "'>Add Transactions</a></p>")
 
             Response.Write("<table class='table' style='width: 800px;'>")
             Response.Write("<thead>")
@@ -69,13 +69,12 @@
             sqlStatement = "SELECT AccountNumber, TransactionType, TransactionDate, Amount FROM Accounts JOIN Transactions ON Accounts.Id = Transactions.AccountId WHERE AccountId = " & accountId
             recordSet.Open sqlStatement, conn
 
-            Response.Write("<a href='data.asp'>Close Transactions</a> | <a href='data-add.asp?id=" & accountId & "'>Edit Transactions</a>")
+            Response.Write("<a href='data.asp'>Close Transactions</a>")
             Response.Write("")
 
             Response.Write("<table class='table' style='width: 800px;'>")
             Response.Write("<thead>")
             Response.Write("<tr>")
-            Response.Write("<th>Account Number</th>")
             Response.Write("<th>Type</th>")
             Response.Write("<th>Transaction Date</th>")
             Response.Write("<th>Amount</th>")
@@ -91,7 +90,6 @@
                 amount = FormatNumber(recordSet("Amount"), 2)
 
                 Response.Write("<tr>")
-                Response.Write("<td>" & cstr(recordSet("AccountNumber")) & "</td>")
 
                 If recordSet("TransactionType") = 2 Then
                     Response.Write("<td>Debit</td>")
@@ -114,15 +112,17 @@
 
             recordSet.Close
 
+            Response.Write("<tr>")
+            Response.Write("<td colspan='3'>&nbsp;</td>")
+            Response.Write("</tr>")
+
+            Response.Write("<tr>")
+            Response.Write("<td style='text-align:center;font-weight:bold;'>Balance</td>")
+            Response.Write("<td colspan='2' style='text-align:right;font-weight:bold;'>&pound; " & FormatNumber(total, 2) & "</td>")
+            Response.Write("</tr>")
+
             Response.Write("</tbody>")
             Response.Write("</table>")
-
-            Response.Write("<table class='table' style='width: 300px;'>")
-            Response.Write("<tr>")
-            Response.Write("<td style='text-align:left;'>Balance</td>")
-            Response.Write("<td style='width: 50%; text-align:right;'>&pound; " & FormatNumber(total, 2) & "</td>")
-            Response.Write("</tr>")
-            Response.Write("<table>")
 
         End If
 
